@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Dispatcher Servlet - определяет инфраструктуру обработки запросов сервлетом -->
+
+
+
+    <!-- Обрабатывает HTTP GET запросы для указанного каталога более эффективно
+     для статических ресурсов -->
+   <!-- <mvc:resources mapping="/resources/**" location="/resources"/>-->
+
+    <!-- Определяет какое представление рендерить на основании вычеслений в @Controller
+    (return ModelAndView) -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/books/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="spring.messageserror" />
+    </bean>
+
+    <!-- Включает поддержку @Controller и др. в Spring MVC -->
+    <mvc:annotation-driven/>
+    <!-- Сканирует пакет для поиска бинов -->
+    <context:component-scan base-package="mvc.bookmanager.controller"/>
+    <context:component-scan base-package="mvc.bookmanager.form"/>
+    <!--  Включает Spring аннотации вроде @Autowired -->
+    <context:annotation-config/>
+ <!--   https://stackoverflow.com/questions/31346267/what-is-the-need-and-use-of-mvcdefault-servlet-handler-->
+<!--    <mvc:default-servlet-handler/>
+    <mvc:default-servlet-handler default-servlet-name="myCustomDefaultServlet"/>-->
+
+</beans>

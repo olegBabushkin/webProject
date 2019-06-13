@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx.xsd
+         http://www.springframework.org/schema/jdbc
+         http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+
+    <context:component-scan base-package="mvc.**.dao"/>
+    <context:component-scan base-package="mvc.**.repository"/>
+    <context:annotation-config/>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+
+    <!-- Hibernate 4 SessionFactory Bean definition -->
+    <bean id="hibernate4AnnotatedSessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>mvc.bookmanager.model.Book</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+
+    <beans profile="postgres">
+        <context:property-placeholder location="classpath:database/postgres/postgres.properties"/>
+
+        <!-- Database Information -->
+        <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"-->
+        <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+              destroy-method="close">
+            <property name="driverClassName" value="${driver}"/>
+            <property name="url" value="${host}"/>
+            <property name="username" value="${user}"/>
+            <property name="password" value="${password}"/>
+        </bean>
+    </beans>
+    <beans profile="h2">
+        <jdbc:embedded-database id="dataSource" type="H2">
+            <jdbc:script location="classpath:database/h2/schema.sql"/>
+            <jdbc:script location="classpath:database/h2/test_data.sql"/>
+        </jdbc:embedded-database>
+    </beans>
+
+
+    <!-- <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />-->
+
+    <!--    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+            <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        </bean>-->
+
+    <!--<bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <prop key="hibernate.jdbc.fetch_size">50</prop>
+                <prop key="hibernate.jdbc.batch_size">10</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+-->
+    <!--BookDao and BookService beans-->
+    <!--   <bean id="bookDaoHiber" class="mvc.bookmanager.dao.BookDaoImpl">
+           <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+       </bean>-->
+
+    <!--    <bean id="bookService" class="mvc.bookmanager.service.BookServiceImpl">
+            <property name="bookDao" ref="bookDao"/>
+        </bean>-->
+
+
+</beans>
