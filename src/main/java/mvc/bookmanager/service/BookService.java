@@ -1,5 +1,6 @@
 package mvc.bookmanager.service;
 
+import mvc.bookmanager.dto.DTOSearch;
 import mvc.bookmanager.exeption.AppException;
 import mvc.bookmanager.model.Book;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public interface BookService {
 
     public List<Book> listBooks();
 
-    public List<Book> findBook(String choice, String text);
+    public List<Book> findBook(DTOSearch search);
 
     public void findBookByAuthor(String name);
 }

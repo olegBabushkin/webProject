@@ -1,5 +1,6 @@
 package mvc.bookmanager.controller;
 
+import mvc.bookmanager.dto.DTOSearch;
 import mvc.bookmanager.exeption.AppException;
 import mvc.bookmanager.form.validator.BookValidator;
 import mvc.bookmanager.model.Book;
@@ -13,7 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BookController {
@@ -38,7 +41,11 @@ public class BookController {
 
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     public String listBooks(Model model) {
-        model.addAttribute("book", new Book());
+        DTOSearch dto = new DTOSearch();
+        dto.setFind("author");
+        dto.getFindMap().put("title", "By Title Book");
+        dto.getFindMap().put("author", "By Author Book");
+        model.addAttribute("searchList", dto);
         model.addAttribute("listBooks", this.bookService.listBooks());
 
         return "books";
@@ -67,9 +74,8 @@ public class BookController {
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.POST)//+
-    public String findByTitle(@RequestParam("selectedText") String selectedText, @RequestParam("choice") String choice,
-                              Model model, RedirectAttributes redirect) {
-        List<Book> bookList = this.bookService.findBook(choice, selectedText);
+    public String find(@ModelAttribute("searchList") DTOSearch searchList,  Model model, RedirectAttributes redirect) {
+        List<Book> bookList = this.bookService.findBook(searchList);
 
         redirect.addFlashAttribute("books", bookList);
 

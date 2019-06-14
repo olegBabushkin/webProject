@@ -16,6 +16,7 @@
 
     <context:component-scan base-package="mvc.**.dao"/>
     <context:component-scan base-package="mvc.**.repository"/>
+    <context:component-scan base-package="mvc.**.dto"/>
     <context:annotation-config/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>

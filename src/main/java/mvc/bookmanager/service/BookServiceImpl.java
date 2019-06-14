@@ -2,6 +2,7 @@ package mvc.bookmanager.service;
 
 import mvc.bookmanager.dao.BookDao;
 import mvc.bookmanager.dao.BookDaoImpl;
+import mvc.bookmanager.dto.DTOSearch;
 import mvc.bookmanager.exeption.AppException;
 import mvc.bookmanager.model.Book;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -60,12 +62,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public List<Book> findBook(String choice, String text) {
-        if (choice.equals("title")) {
-            return this.bookQuery.getBookByTitle(text);
+    public List<Book> findBook(DTOSearch search) {
+
+        if (search.getFind().equals("title")){
+            return this.bookQuery.getBookByTitle(search.getText());
         }
-        if (choice.equals("author")) {
-            return this.bookQuery.getBookByAuthor(text);
+        if (search.getFind().equals("author")) {
+            return this.bookQuery.getBookByAuthor(search.getText());
         } else throw new AppException("The choice is not selected");
     }
 

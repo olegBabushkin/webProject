@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 
 <%@ page session="false" %>
 <html>
@@ -82,25 +83,36 @@
 
 <p>
 <h1>Search book</h1></p>
-<form action="/find" method="post">
+
+<c:url var="addAction" value="/find"/>
+
+<form:form action="${addAction}" modelAttribute="searchList">
     <table>
         <tr>
-            <%-- <td><label for="1"><p>Book title:</p></label></td>--%>
-            <td><input type="text" name="selectedText" required selectedText/></td>
+                <%-- <td><label for="1"><p>Book title:</p></label></td>--%>
             <td>
-                <select name="choice">
-                    <option value="title">by BookTitle</option>
-                    <option value="author">by BookAuthor</option>
-                </select>
+                <form:label path="text">
+                    <spring:message text="Input"/>
+                </form:label>
+            </td>
+            <td>
+                <form:input path="text"/>
+            </td>
+            <td>
+                <form:select path="find">
+                    <form:option value="NONE" label="-Select-"/>
+                    <form:options items="${searchList.findMap}"/>
+                </form:select>
             </td>
         </tr>
         <tr>
             <td>
-                <input type="submit" value="Search"/>
+                <input type="submit" value="<spring:message text="Search"/>"/>
             </td>
         </tr>
     </table>
-</form>
+</form:form>
+
 <table class="tg">
     <c:forEach items="${books}" var="book">
         <tr>
