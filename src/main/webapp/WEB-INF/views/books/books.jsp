@@ -104,6 +104,9 @@
                     <form:options items="${searchList.findMap}"/>
                 </form:select>
             </td>
+            <td>
+                <p style="color:red">${messageEx}</p>
+            </td>
         </tr>
         <tr>
             <td>
@@ -123,8 +126,6 @@
         </tr>
     </c:forEach>
 </table>
-
-<p style="color:red">${messageEx}</p>
 
 </body>
 </html>

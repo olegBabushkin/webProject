@@ -5,6 +5,7 @@ import mvc.bookmanager.exeption.AppException;
 import mvc.bookmanager.form.validator.BookValidator;
 import mvc.bookmanager.model.Book;
 import mvc.bookmanager.service.BookService;
+import mvc.bookmanager.service.LibraryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,17 @@ import java.util.Map;
 public class BookController {
     private BookService bookService;
     private BookValidator bookValidator;
+    private LibraryService libraryService;
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired(required = true)
     public void setBookService(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @Autowired
+    public void setLibraryService(LibraryService libraryService) {
+        this.libraryService = libraryService;
     }
 
     @Autowired
@@ -41,17 +48,16 @@ public class BookController {
 
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     public String listBooks(Model model) {
-        DTOSearch dto = new DTOSearch();
-        dto.setFind("author");
-        dto.getFindMap().put("title", "By Title Book");
-        dto.getFindMap().put("author", "By Author Book");
+
+        DTOSearch dto = libraryService.getDtoSearch();
+
         model.addAttribute("searchList", dto);
         model.addAttribute("listBooks", this.bookService.listBooks());
 
         return "books";
     }
 
-    @RequestMapping(value = "/books/add1", method = RequestMethod.GET)
+    @RequestMapping(value = "/books/add", method = RequestMethod.GET)
     public String redirectAddBook(Model model) {
         model.addAttribute("book", new Book());
         return "addBook";
@@ -74,10 +80,14 @@ public class BookController {
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.POST)//+
-    public String find(@ModelAttribute("searchList") DTOSearch searchList,  Model model, RedirectAttributes redirect) {
-        List<Book> bookList = this.bookService.findBook(searchList);
+    public String find(@ModelAttribute("searchList") DTOSearch searchList, Model model, RedirectAttributes redirect) {
+        try {
+            List<Book> bookList = this.bookService.findBook(searchList);
+            redirect.addFlashAttribute("books", bookList);
+        } catch (AppException e) {
+            redirect.addFlashAttribute("messageEx", e.getMessage());
+        }
 
-        redirect.addFlashAttribute("books", bookList);
 
         return "redirect:/books";
     }
@@ -98,7 +108,8 @@ public class BookController {
     }
 
     @RequestMapping(value = "/books/edit")
-    public String editBook(@ModelAttribute("book") Book book, BindingResult result, Model model, RedirectAttributes redirect) {
+    public String editBook(@ModelAttribute("book") Book book, BindingResult result, Model model, RedirectAttributes
+            redirect) {
         bookValidator.validate(book, result);
         if (result.hasErrors()) {
             return "editBook";

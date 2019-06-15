@@ -9,6 +9,8 @@
 
     <import resource="classpath:spring/appconfig-data.xml"/>
     <import resource="classpath:spring/appconfig-context.xml"/>
+    <import resource="classpath:spring/appconfig-spring.xml"/>
+
 
 
 </beans>

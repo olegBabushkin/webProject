@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="DTOSearch" class="mvc.bookmanager.dto.DTOSearch">
+        <property name="find" value="author"/>
+        <property name="findMap" ref="map">
+        </property>
+
+    </bean>
+
+    <bean id="map" class="java.util.LinkedHashMap" scope="prototype">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <entry key="title" value="By Title Book"/>
+                <entry key="author" value="By Book Autor"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+</beans>

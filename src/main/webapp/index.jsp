@@ -8,7 +8,7 @@
 <h1>Book Library</h1>
 <br/>
 <a href="<c:url value="/books"/>"><button>Books list</button></a>
-<a href="<c:url value="/books/add1"/>"><button>Add Book</button></a>
+<a href="<c:url value="/books/add"/>"><button>Add Book</button></a>
 <br/>
 </body>
 </html>

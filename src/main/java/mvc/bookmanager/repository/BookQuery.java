@@ -22,7 +22,6 @@ public class BookQuery {
 
     @Autowired
     @Qualifier(value = "hibernate4AnnotatedSessionFactory")
-
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
