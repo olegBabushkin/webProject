@@ -5,7 +5,7 @@
 <%@ page session="false" %>
 <html>
 <head>
-    <title>Edit Book Page</title>
+    <title>Add Author Page</title>
 
     <style type="text/css">
         .tg {
@@ -51,6 +51,8 @@
         }
     </style>
 </head>
+<body>
+
 <br/>
 <a href="${pageContext.request.contextPath}/index.jsp">Back to main menu</a>
 <br/>
@@ -58,66 +60,71 @@
 <br/>
 <br/>
 
-<h1>Edit Book</h1>
+<h1>Add Author</h1>
 
 <p style="color:#4dae30">${message}</p>
 
-<c:url var="editAction" value="/books/edit"/>
+<p style="color:red">${messageEx}</p>
 
-<form:form action="${editAction}" modelAttribute="book">
+<c:url var="addAction" value="/authors"/>
+
+<form:form action="${addAction}" modelAttribute="author" method="post">
     <table>
-        <c:if test="${!empty book.id}">
-            <tr>
-                <td>
-                    <form:label path="id">
-                        <spring:message text="ID"/>
-                    </form:label>
-                </td>
-                <td>
-                    <form:input path="id" readonly="true" size="8" disabled="true"/>
-                    <form:hidden path="id"/>
-                </td>
-            </tr>
-        </c:if>
         <tr>
             <td>
-                <form:label path="bookTitle">
-                    <spring:message text="Title"/>
+                <form:label path="firstName">
+                    <spring:message text="FirstName"/>
                 </form:label>
             </td>
             <td>
-                <form:input path="bookTitle"/>
+                <form:input path="firstName"/>
             </td>
             <td>
-                <span class="error"><form:errors path="bookTitle"/></span>
+                <span class="error"><form:errors path="firstName"/></span>
             </td>
         </tr>
         <tr>
             <td>
-                <form:label path="bookAuthor">
-                    <spring:message text="Author"/>
+                <form:label path="lastName">
+                    <spring:message text="LastName"/>
                 </form:label>
             </td>
             <td>
-                <form:input path="bookAuthor"/>
+                <form:input path="lastName"/>
             </td>
             <td>
-                <span class="error"><form:errors path="bookAuthor"/></span>
+                <span class="error"><form:errors path="lastName"/></span>
             </td>
         </tr>
         <tr>
             <td>
-                <form:label path="price">
-                    <spring:message text="Price"/>
+                <form:label path="birthplace">
+                    <spring:message text="Birthplace"/>
                 </form:label>
             </td>
             <td>
-                <form:input path="price"/>
+                <form:input path="birthplace"/>
+            </td>
+            <td>
+                <span class="error"><form:errors path="birthplace"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form:label path="contactInfo">
+                    <spring:message text="ContactInfo"/>
+                </form:label>
+            </td>
+            <td>
+                <form:textarea path="contactInfo" rows="5" cols="30" />
+            </td>
+            <td>
+                <span class="error"><form:errors path="contactInfo"/></span>
             </td>
         </tr>
         <tr>
             <td colspan="2">
-                <input type="submit" value="<spring:message text="Edit Book"/>"/>
+                <input type="submit" value="<spring:message text="Add Author"/>"/>
             </td>
         </tr>
     </table>

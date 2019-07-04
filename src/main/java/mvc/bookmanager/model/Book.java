@@ -1,71 +1,117 @@
 package mvc.bookmanager.model;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "BOOKS")
-@NamedQueries(value = {@NamedQuery(name = "BOOK_EQUALS", query = "SELECT b FROM Book b WHERE b.bookTitle=:bookTitle" +
-        " AND b.bookAuthor=:bookAuthor")})
+@Table(name = "Books")
+
 public class Book {
-    public static final String BOOK_EQUALS = "Book.get";
     @Id
     @Column(name = "ID")
-    @SequenceGenerator(name="seq",allocationSize=7 , sequenceName = "books_id_seq")
+    @SequenceGenerator(name = "seq", allocationSize = 3, sequenceName = "books_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     private Integer id;
+    @Column(name = "title")
+    private String title;
+    @Column(name = "year")
+    private Integer year;
+    @Column(name = "pages")
+    private Integer numberOfPages;
+    @ManyToMany
+    @JoinTable(name = "authors_books",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id")})
+    private Set<Author> authors;
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
 
-    @Column(name = "BOOK_TITLE")
-    private String bookTitle;
-
-    @Column(name = "BOOK_AUTHOR")
-    private String bookAuthor;
-
-    @Column(name = "BOOK_PRICE")
-    private int price;
-
-    public boolean isNew(){
-        return this.id == null;
+    public Book() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getBookTitle() {
-        return bookTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getBookAuthor() {
-        return bookAuthor;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setBookAuthor(String bookAuthor) {
-        this.bookAuthor = bookAuthor;
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
-    public int getPrice() {
-        return price;
+    public Integer getNumberOfPages() {
+        return numberOfPages;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setNumberOfPages(Integer numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    public boolean isNew() {
+        return this.id == null;
     }
 
     @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", bookTitle='" + bookTitle + '\'' +
-                ", bookAuthor='" + bookAuthor + '\'' +
-                ", price=" + price +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(year, book.year) &&
+                Objects.equals(numberOfPages, book.numberOfPages) &&
+                Objects.equals(genre, book.genre) &&
+                Objects.equals(publisher, book.publisher);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, year, numberOfPages, genre, publisher);
+    }
+
+
 }

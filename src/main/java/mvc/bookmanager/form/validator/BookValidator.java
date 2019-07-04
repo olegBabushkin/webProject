@@ -15,17 +15,28 @@ public class BookValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Book book = (Book) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "bookTitle", "booktitle.empty",
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "booktitle.empty",
                 "Title must not be empty.");
-        String bookTitle = book.getBookTitle();
+        String bookTitle = book.getTitle();
         if ((bookTitle.length()) > 16 || (bookTitle.length()) < 1) {
-            errors.rejectValue("bookTitle", "booktitle.uncorrect",
+            errors.rejectValue("title", "booktitle.uncorrect",
                     "Title must not more than 16 characters and not less 1.");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "bookAuthor", "author.empty",
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "year", "year.empty",
+                "Year must not be empty.");
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "numberOfPages", "numberOfPages.empty",
+                "NumberOfPages must not be empty.");
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "authors", "author.empty",
                 "Author must not be empty.");
 
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "genre", "genre.empty",
+                "Genre must not be empty.");
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "publisher.empty",
+                "Publisher must not be empty.");
      /*   if (!(signupForm.getPassword()).equals(signupForm
                 .getConfirmPassword())) {
             errors.rejectValue("confirmPassword", "confirmPassword.passwordDontMatch", "Passwords don't match.");

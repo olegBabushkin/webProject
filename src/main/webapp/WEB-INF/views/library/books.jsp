@@ -1,9 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 
-<%@ page session="false" %>
+<%@ page session="true" %>
 <html>
 <head>
     <title>Books Page</title>
@@ -64,18 +65,30 @@
             <th width="80">ID</th>
             <th width="120">Title</th>
             <th width="120">Author</th>
-            <th width="120">Price</th>
+            <th width="120">Genre</th>
+            <th width="120">Publisher</th>
+            <th width="120">Pages</th>
             <th width="60">Edit</th>
             <th width="60">Delete</th>
         </tr>
         <c:forEach items="${listBooks}" var="book">
             <tr>
                 <td>${book.id}</td>
-                <td><a href="/bookdata/${book.id}" target="_blank">${book.bookTitle}</a></td>
-                <td>${book.bookAuthor}</td>
-                <td>${book.price/100}${book.price%100}</td>
-                <td><a href="<c:url value='/edit/${book.id}'/>">Edit</a></td>
-                <td><a href="<c:url value='/remove/${book.id}'/>">Delete</a></td>
+                <td><a href="/books/${book.id}" target="_blank">${book.title}</a></td>
+                <td>
+                    <c:forEach items="${book.authors}" var="author">
+                        <c:set var="str" value="${str}${author.firstName} ${author.lastName};"/>
+                    </c:forEach>
+                    <c:set var="array" value="${fn:split(str, ';')}"/>
+                    <c:set var="string" value="${fn:join(array, ', ')}"/>
+                        ${string}
+                    <c:set var="str" value=""/>
+                </td>
+                <td>${book.genre.name}</td>
+                <td>${book.publisher.name}</td>
+                <td>${book.numberOfPages}</td>
+                <td><a href="<c:url value='/books/${book.id}/edit'/>">Edit</a></td>
+                <td><a href="<c:url value='/books/${book.id}/delete'/>">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
@@ -84,7 +97,7 @@
 <p>
 <h1>Search book</h1></p>
 
-<c:url var="addAction" value="/find"/>
+<c:url var="addAction" value="/books/find"/>
 
 <form:form action="${addAction}" modelAttribute="searchList">
     <table>
@@ -119,8 +132,19 @@
 <table class="tg">
     <c:forEach items="${books}" var="book">
         <tr>
-            <td><a href="/bookdata/${book.id}" target="_blank">${book.bookTitle}</a></td>
-            <td>${book.bookAuthor}</td>
+            <td><a href="/bookdata/${book.id}" target="_blank">${book.title}</a></td>
+            <td>
+                <c:forEach items="${book.authors}" var="author">
+                    <c:set var="str" value="${str}${author.firstName} ${author.lastName};"/>
+                </c:forEach>
+                <c:set var="array" value="${fn:split(str, ';')}"/>
+                <c:set var="string" value="${fn:join(array, ', ')}"/>
+                    ${string}
+                <c:set var="str" value=""/>
+            </td>
+            <td>${book.genre.name}</td>
+            <td>${book.publisher.name}</td>
+            <td>${book.numberOfPages}</td>
             <td><a href="<c:url value='/edit/${book.id}'/>">Edit</a></td>
             <td><a href="<c:url value='/remove/${book.id}'/>">Delete</a></td>
         </tr>

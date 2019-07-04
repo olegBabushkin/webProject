@@ -9,19 +9,35 @@
     <!-- Dispatcher Servlet - определяет инфраструктуру обработки запросов сервлетом -->
 
 
-
     <!-- Обрабатывает HTTP GET запросы для указанного каталога более эффективно
      для статических ресурсов -->
-   <!-- <mvc:resources mapping="/resources/**" location="/resources"/>-->
+    <!-- <mvc:resources mapping="/resources/**" location="/resources"/>-->
 
     <!-- Определяет какое представление рендерить на основании вычеслений в @Controller
     (return ModelAndView) -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/views/books/"/>
+        <property name="prefix" value="/WEB-INF/views/library/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="spring.messageserror" />
+        <property name="basename" value="spring.messageserror"/>
+    </bean>
+
+    <mvc:annotation-driven conversion-service="conversionService"/>
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="mvc.bookmanager.convertor.IdAuthorsToAuthorsConvertor"
+                      autowire="byType"/>
+                <bean class="mvc.bookmanager.convertor.IdPublisherToPublisherConvertor"
+                      autowire="byType"/>
+                <bean class="mvc.bookmanager.convertor.IdGenreToGenresConvertor"
+                      autowire="byType"/>
+                <bean class="mvc.bookmanager.convertor.IdBooksToBooksConvertor"
+                      autowire="byType"/>
+            </set>
+        </property>
     </bean>
 
     <!-- Включает поддержку @Controller и др. в Spring MVC -->
@@ -31,8 +47,8 @@
     <context:component-scan base-package="mvc.bookmanager.form"/>
     <!--  Включает Spring аннотации вроде @Autowired -->
     <context:annotation-config/>
- <!--   https://stackoverflow.com/questions/31346267/what-is-the-need-and-use-of-mvcdefault-servlet-handler-->
-<!--    <mvc:default-servlet-handler/>
-    <mvc:default-servlet-handler default-servlet-name="myCustomDefaultServlet"/>-->
+    <!--   https://stackoverflow.com/questions/31346267/what-is-the-need-and-use-of-mvcdefault-servlet-handler-->
+    <!--    <mvc:default-servlet-handler/>
+        <mvc:default-servlet-handler default-servlet-name="myCustomDefaultServlet"/>-->
 
 </beans>

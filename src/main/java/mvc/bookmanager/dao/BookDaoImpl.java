@@ -1,5 +1,6 @@
 package mvc.bookmanager.dao;
 
+import mvc.bookmanager.model.Author;
 import mvc.bookmanager.model.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -41,7 +42,7 @@ public class BookDaoImpl implements BookDao {
     public void removeBook(int id) {
         logger.info("removeBook");
         Session session = this.sessionFactory.getCurrentSession();
-        Book book = (Book) session.load(Book.class, id);
+        Book book = (Book) session.get(Book.class, id);
 
         if (book != null) {
             session.delete(book);
@@ -53,7 +54,10 @@ public class BookDaoImpl implements BookDao {
     public Book getBookById(int id) {
         logger.info("getBookById");
         Session session = this.sessionFactory.getCurrentSession();
-        Book book = (Book) session.load(Book.class, id);
+        Book book = (Book) session.get(Book.class, id);
+        for(Author author: book.getAuthors()){
+            session.get(Author.class, author.getId());
+        }
         logger.info("Book successfully loaded. Book details: " + book);
 
         return book;
@@ -64,7 +68,12 @@ public class BookDaoImpl implements BookDao {
     public List<Book> listBooks() {
         logger.info("listBooks");
         Session session = this.sessionFactory.getCurrentSession();
-        List<Book> bookList = session.createQuery("from Book").list();
+       /* List<Book> bookList = session.createQuery("from Book").list();*/
+        List<Book> bookList = session.createQuery("select distinct b from Book b left join fetch b.authors").list();
+      /*  for (Book book:bookList){
+            for (Author author:book.getAuthors()){
+            session.get(Author.class, author.getId());
+        }}*/
         logger.info("listBooks successfully loaded ");
         return bookList;
     }
