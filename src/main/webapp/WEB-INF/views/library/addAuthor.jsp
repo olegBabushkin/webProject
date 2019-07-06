@@ -1,7 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-
 <%@ page session="false" %>
 <html>
 <head>
@@ -52,7 +51,7 @@
     </style>
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/library/_menu.jsp"></jsp:include>
 <br/>
 <a href="${pageContext.request.contextPath}/index.jsp">Back to main menu</a>
 <br/>

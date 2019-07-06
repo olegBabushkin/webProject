@@ -53,8 +53,8 @@
         }
     </style>
 </head>
-<br>
-
+<body>
+<jsp:include page="/WEB-INF/views/library/_menu.jsp"></jsp:include>
 <a href="<c:url value="/index.jsp"/>">Back to main menu</a>
 
 <h1>Book List</h1>

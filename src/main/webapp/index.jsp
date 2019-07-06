@@ -5,6 +5,7 @@
   <title>Book Library</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/library/_menu.jsp"/>
 <h1>Book Library</h1>
 <br/>
 <a href="<c:url value="/books"/>"><button>Books list</button></a>

@@ -51,6 +51,8 @@
         }
     </style>
 </head>
+<body>
+<jsp:include page="/WEB-INF/views/library/_menu.jsp"></jsp:include>
 <br/>
 <a href="${pageContext.request.contextPath}/index.jsp">Back to main menu</a>
 <br/>

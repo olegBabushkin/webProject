@@ -50,6 +50,7 @@
 
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/library/_menu.jsp"></jsp:include>
 <h1>Book Details</h1>
 
 <table class="tg">

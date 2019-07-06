@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:security="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http auto-config='true' use-expressions="true">
+        <intercept-url pattern="/users/login" access="permitAll()" />
+        <intercept-url pattern="/users/registration" access="permitAll()" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+        <form-login login-page="/users/login"
+                    login-processing-url="/appLogin"
+                    default-target-url="/users/welcome"
+                    authentication-failure-url="/users/login?error"
+                    username-parameter="username"
+                    password-parameter="password"/>
+        <csrf/>
+    </http>
+
+  <!--  <http pattern="/users/login">
+        <intercept-url pattern="/users/login" access="permitAll()"/>
+        <form-login login-page="/users/login"
+                    default-target-url="/users/welcome"
+                    authentication-failure-url="/users/login?error"
+                    username-parameter="username"
+                    password-parameter="password"/>
+    </http>
+
+    <http auto-config="true" use-expressions="true" pattern="/users">
+        &lt;!&ndash;      <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>&ndash;&gt;
+        <intercept-url pattern="/users/admin" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/users/welcome" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        &lt;!&ndash;       <intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>&ndash;&gt;
+        <form-login login-page="/users/login"
+                    default-target-url="/users/welcome"
+                    authentication-failure-url="/users/login?error"
+                    username-parameter="username"
+                    password-parameter="password"/>
+        <logout logout-success-url="/users/login?logout"/>
+        <csrf/>
+    </http>
+    <http>
+        <intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <http-basic/>
+    </http>-->
+
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsServiceImpl">
+            <password-encoder ref="bCryptPasswordEncoder"></password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="userDetailsServiceImpl"
+                class="mvc.bookmanager.service.user.UserDetailsServiceImpl"></beans:bean>
+
+    <beans:bean id="bCryptPasswordEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <beans:constructor-arg name="strength" value="11"/>
+    </beans:bean>
+</beans:beans>

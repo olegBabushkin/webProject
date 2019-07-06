@@ -35,6 +35,8 @@
                 <value>mvc.bookmanager.model.Author</value>
                 <value>mvc.bookmanager.model.Genre</value>
                 <value>mvc.bookmanager.model.Publisher</value>
+                <value>mvc.bookmanager.model.User</value>
+                <value>mvc.bookmanager.model.Role</value>
             </list>
         </property>
         <property name="hibernateProperties">

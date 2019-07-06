@@ -49,6 +49,7 @@
 
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/library/_menu.jsp"></jsp:include>
 <h1>Author Details</h1>
 
 <table class="tg">
