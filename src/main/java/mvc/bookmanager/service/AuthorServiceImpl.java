@@ -75,15 +75,17 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void editAuthor(Author author) throws AppException {
         List<Integer> bookListID = this.bookQuery.getBooksByOnlyAuthor(author);
-        int count = 0;
-        for (Integer id : bookListID) {
-            for (Book book1 : author.getBooks()) {
-                if (id.equals(book1.getId())) {
-                    count++;
+        if (!bookListID.isEmpty()) {
+            int count = 0;
+            for (Integer id : bookListID) {
+                for (Book book1 : author.getBooks()) {
+                    if (id.equals(book1.getId())) {
+                        count++;
+                    }
                 }
             }
-        }
         if (count == 0) throw new AppException("Find another books");
+        }
         this.authorDao.updateAuthor(author);
     }
 

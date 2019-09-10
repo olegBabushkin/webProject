@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * 20.06.2019
  */
 @Component
-public class IdAuthorsToAuthorsConvertor implements Converter<Object, Author> {
+public class IdAuthorsToAuthorsConvertor implements Converter<String, Author> {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private AuthorService authorService;
@@ -25,9 +25,9 @@ public class IdAuthorsToAuthorsConvertor implements Converter<Object, Author> {
         this.authorService = authorService;
     }
 
-    public Author convert(Object element) {
+    public Author convert(String element) {
         logger.info("convert: " + element);
-        Integer id = Integer.parseInt((String) element);
+        Integer id = Integer.parseInt(element);
         Author author = authorService.getAuthorById(id);
         logger.info("convert successeful: " + element);
         return author;

@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/authors")
+/*@RequestMapping(value = "/authors")*/
 public class AuthorsController {
     @Autowired(required = true)
     private BookService bookService;
@@ -59,7 +59,7 @@ public class AuthorsController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/authors",method = RequestMethod.GET)
     public String listBooks(Model model) {
 
         DTOSearch dto = libraryService.getDtoSearch();
@@ -69,7 +69,7 @@ public class AuthorsController {
         return "authors";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/authors", method = RequestMethod.POST)
     public String addAuthor(@ModelAttribute("author") Author author, BindingResult result, Model model) {
         authorValidator.validate(author, result);
         if (result.hasErrors()) {
@@ -85,26 +85,26 @@ public class AuthorsController {
         return "addAuthor";
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/authors/new", method = RequestMethod.GET)
     public String redirectAddAuthor(Model model) {
         model.addAttribute("author", new Author());
         return "addAuthor";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/authors/{id}", method = RequestMethod.GET)
     public String bookData(@PathVariable("id") int id, Model model) {
         model.addAttribute("author", this.authorService.getAuthorById(id));
 
         return "authordata";
     }
 
-    @RequestMapping(value = "/{id}/delete")
+    @RequestMapping(value = "/authors/{id}/delete")
     public String removeBook(@PathVariable int id) {
         this.authorService.removeAuthor(id);
         return "redirect:/authors";
     }
 
-    @RequestMapping(value = "/{id}/edit")
+    @RequestMapping(value = "/authors/{id}/edit")
     public String editAuthor(@PathVariable("id") int id, Model model) {
 
         model.addAttribute("author", this.authorService.getAuthorById(id));
@@ -112,7 +112,7 @@ public class AuthorsController {
         return "editAuthor";
     }
 
-    @RequestMapping(value = "/edit")
+    @RequestMapping(value = "/authors/edit")
     public String editBook(@ModelAttribute("author") Author author, BindingResult result, Model model, RedirectAttributes
             redirect) {
         authorValidator.validate(author, result);
@@ -129,7 +129,7 @@ public class AuthorsController {
         return "editAuthor";
     }
 
-    @RequestMapping(value = "/find", method = RequestMethod.POST)//+
+    @RequestMapping(value = "/authors/find", method = RequestMethod.POST)//+
     public String find(@RequestParam("text") String text, Model model, RedirectAttributes redirect) {
         try {
             List<Author> authorList = this.authorService.findAuthor(text);

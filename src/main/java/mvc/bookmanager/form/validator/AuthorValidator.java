@@ -32,8 +32,6 @@ public class AuthorValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "birthplace", "year.empty",
                 "Birthplace must not be empty.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "books", "year.empty",
-                "Books must not be empty.");
 
 
      /*   if (!(signupForm.getPassword()).equals(signupForm.getConfirmPassword())) {

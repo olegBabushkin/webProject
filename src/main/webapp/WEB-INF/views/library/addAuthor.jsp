@@ -55,7 +55,7 @@
 <br/>
 <a href="${pageContext.request.contextPath}/index.jsp">Back to main menu</a>
 <br/>
-<a href="<c:url value="/books"/>">Back to books list</a>
+<a href="<c:url value="/authors"/>">Back to authors list</a>
 <br/>
 <br/>
 

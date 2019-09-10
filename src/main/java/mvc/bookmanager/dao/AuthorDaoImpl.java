@@ -27,7 +27,7 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public void addAuthor(Author author) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.merge(author);
+        session.persist(author);
         logger.info("Book successfully saved. Book details: " + author);
     }
 

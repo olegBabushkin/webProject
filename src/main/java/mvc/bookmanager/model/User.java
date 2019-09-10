@@ -21,6 +21,9 @@ public class User {
     @Transient
     private String confirmPassword;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Book> books;
+
     @ManyToMany    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -64,5 +67,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }

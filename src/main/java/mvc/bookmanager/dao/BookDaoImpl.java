@@ -69,7 +69,8 @@ public class BookDaoImpl implements BookDao {
         logger.info("listBooks");
         Session session = this.sessionFactory.getCurrentSession();
        /* List<Book> bookList = session.createQuery("from Book").list();*/
-        List<Book> bookList = session.createQuery("select distinct b from Book b left join fetch b.authors").list();
+        List<Book> bookList = session.createQuery("select distinct b from Book b left join fetch b.authors")
+                .list();
       /*  for (Book book:bookList){
             for (Author author:book.getAuthors()){
             session.get(Author.class, author.getId());

@@ -14,7 +14,7 @@
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
         <form-login login-page="/users/login"
                     login-processing-url="/appLogin"
-                    default-target-url="/users/welcome"
+                    default-target-url="/index.jsp"
                     authentication-failure-url="/users/login?error"
                     username-parameter="username"
                     password-parameter="password"/>

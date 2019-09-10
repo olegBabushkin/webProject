@@ -37,32 +37,37 @@ public class BookController {
     public void setBookService(BookService bookService) {
         this.bookService = bookService;
     }
+
     @Autowired(required = true)
     public void setAuthorService(AuthorService authorService) {
         this.authorService = authorService;
     }
+
     @Autowired
     public void setLibraryService(LibraryService libraryService) {
         this.libraryService = libraryService;
     }
+
     @Autowired
     public void setGenreService(GenreService genreService) {
         this.genreService = genreService;
     }
+
     @Autowired
     public void setPublisherService(PublisherService publisherService) {
         this.publisherService = publisherService;
     }
+
     @Autowired
     public void setBookValidator(BookValidator bookValidator) {
         this.bookValidator = bookValidator;
     }
 
 
-   @ModelAttribute("listAuthors")
-   public List<Author> authorsList() {
-       return authorService.listAuthors();
-   }
+    @ModelAttribute("listAuthors")
+    public List<Author> authorsList() {
+        return authorService.listAuthors();
+    }
 
     @ModelAttribute("listGenre")
     public List<Genre> genresList() {
@@ -78,15 +83,15 @@ public class BookController {
     public String listBooks(Model model) {
 
         DTOSearch dto = libraryService.getDtoSearch();
-
+        List<Book> list = this.bookService.listBooks();
         model.addAttribute("searchList", dto);
-        model.addAttribute("listBooks", this.bookService.listBooks());
+        model.addAttribute("listBooks", list);
 
         return "books";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String addBook(@ModelAttribute("book") Book book, BindingResult result, Model model,RedirectAttributes
+    public String addBook(@ModelAttribute("book") Book book, BindingResult result, Model model, RedirectAttributes
             redirect) {
         bookValidator.validate(book, result);
         if (result.hasErrors()) {

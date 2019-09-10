@@ -132,7 +132,7 @@
 <table class="tg">
     <c:forEach items="${books}" var="book">
         <tr>
-            <td><a href="/bookdata/${book.id}" target="_blank">${book.title}</a></td>
+            <td><a href="/books/${book.id}" target="_blank">${book.title}</a></td>
             <td>
                 <c:forEach items="${book.authors}" var="author">
                     <c:set var="str" value="${str}${author.firstName} ${author.lastName};"/>

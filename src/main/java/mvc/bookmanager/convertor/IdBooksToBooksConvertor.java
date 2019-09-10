@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * 20.06.2019
  */
 @Component
-public class IdBooksToBooksConvertor implements Converter<Object, Book> {
+public class IdBooksToBooksConvertor implements Converter<String, Book> {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private BookService bookService;
@@ -26,9 +26,9 @@ public class IdBooksToBooksConvertor implements Converter<Object, Book> {
         this.bookService = bookService;
     }
 
-    public Book convert(Object element) {
+    public Book convert(String element) {
         logger.info("convert: " + element);
-        Integer id = Integer.parseInt((String) element);
+        Integer id = Integer.parseInt(element);
         Book book = bookService.getBookById(id);
         logger.info("convert successeful: " + element);
         return book;

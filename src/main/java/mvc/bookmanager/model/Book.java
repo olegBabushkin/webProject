@@ -31,6 +31,9 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Book() {
     }
@@ -93,6 +96,14 @@ public class Book {
 
     public boolean isNew() {
         return this.id == null;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

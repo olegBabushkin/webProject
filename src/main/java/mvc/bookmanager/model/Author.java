@@ -29,7 +29,7 @@ public class Author {
     private String contactInfo;
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "authors_books",
-            joinColumns = {@JoinColumn(name = "author_id", nullable = true)},
+            joinColumns = {@JoinColumn(name = "author_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
     private Set<Book> books;
 

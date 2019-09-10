@@ -61,12 +61,12 @@
             <property name="password" value="${password}"/>
         </bean>
     </beans>
-    <beans profile="h2">
+<!--    <beans profile="h2">
         <jdbc:embedded-database id="dataSource" type="H2">
             <jdbc:script location="classpath:database/h2/schema.sql"/>
             <jdbc:script location="classpath:database/h2/test_data.sql"/>
         </jdbc:embedded-database>
-    </beans>
+    </beans>-->
 
 
     <!-- <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />-->

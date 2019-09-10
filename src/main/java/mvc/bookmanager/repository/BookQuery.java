@@ -74,7 +74,8 @@ public class BookQuery {
 
     public List<Book> getBookByTitle(String title) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query = session.createQuery("SELECT b FROM Book b WHERE title=:Title");
+        Query query = session.createQuery("SELECT distinct b FROM Book b join fetch b.authors" +
+                " WHERE title=:Title");
         query.setParameter("Title", title);
         return query.list();
     }
@@ -89,8 +90,8 @@ public class BookQuery {
         query.setParameter("authorId", id);*/
 
 
-        Query query = session.createQuery("select b from Book b join b.authors a where a.lastName " +
-                "IN(:list) or a.firstName IN(:list) order by b.title");
+        Query query = session.createQuery("select distinct b from Book b join fetch b.authors a " +
+                "where a.lastName IN(:list) or a.firstName IN(:list) order by b.title");
         query.setParameterList("list", listAuthor);
         List<Book> list = query.list();
         return list;
@@ -109,8 +110,8 @@ public class BookQuery {
     public List<Integer> getBooksByOnlyAuthor(Author author) {
         Session session = this.sessionFactory.getCurrentSession();
    /*     List<Book> bookList = this.getBooksByAuthor(author);*/
-        Query query = session.createQuery("select b.id from Book b join b.authors a join b.authors aa where aa.id" +
-                "=:Author group by b.id having count(b.id)=1");
+        Query query = session.createQuery("select b.id from Book b join b.authors a join b.authors aa " +
+                "where aa.id =:Author group by b.id having count(b.id)=1");
         query.setParameter("Author", author.getId());
     /* Query query = session.createSQLQuery("SELECT d.book_id\n" +
              "FROM (SELECT * FROM authors_books ab WHERE ab.author_id = 29 ) as d\n" +
